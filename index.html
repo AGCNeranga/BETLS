@@ -857,9 +857,9 @@ footer {
             👤
         </button>
         
-        <button class="nav-btn" onclick="document.getElementById('main-content').scrollIntoView({ behavior: 'smooth' })">VIEW TRACKERS</button>
+        <button class="nav-btn" onclick="openInNewTab('#main-content')">VIEW TRACKERS</button>
         
-        <button class="nav-btn" onclick="scrollToConverter()">TIME CONVERTER</button>
+        <button class="nav-btn" onclick="openInNewTab('.utility-block')">TIME CONVERTER</button>
         <button id="layout-toggle" class="nav-btn" onclick="toggleLayoutMode()">Default Layout</button>
         </div>
 </header>
@@ -875,22 +875,22 @@ footer {
     
     <div class="content-section" style="border-top-color: var(--light-green);">
         <h3>🇬🇧 UK Race Tools</h3>
-        <a href="https://agcneranga.github.io/UKTE/" class="tracker-link">Top UK Race Tracker</a>
-        <a href="https://agcneranga.github.io/TCE/" class="tracker-link">UK RaceTips Editor</a>
+        <a href="https://agcneranga.github.io/UKTE/" target="_blank" class="tracker-link">Top UK Race Tracker</a>
+        <a href="https://agcneranga.github.io/TCE/" target="_blank" class="tracker-link">UK RaceTips Editor</a>
     </div>
 
     <div class="content-section" style="border-top-color: var(--yellow-highlight);">
         <h3>🇦🇺 AUS Race Tools</h3>
-        <a href="https://agcneranga.github.io/AUS-Race-Premium/" class="tracker-link">Top AUS (TARR|HARR) Race Tracker</a>
-        <a href="https://agcneranga.github.io/RaceKH3/" class="tracker-link">AUS New v9.00 (HARR) Marker</a>
-        <a href="https://agcneranga.github.io/AUS-Horsecodes-Finder/" class="tracker-link">AUS Code Abbrevation Marker</a>
+        <a href="https://agcneranga.github.io/AUS-Race-Premium/" target="_blank" class="tracker-link">Top AUS (TARR|HARR) Race Tracker</a>
+        <a href="https://agcneranga.github.io/RaceKH3/" target="_blank" class="tracker-link">AUS New v9.00 (HARR) Marker</a>
+        <a href="https://agcneranga.github.io/AUS-Horsecodes-Finder/" target="_blank" class="tracker-link">AUS Code Abbrevation Marker</a>
 
     </div>
 
     <div class="content-section" style="border-top-color: var(--dark-red);">
         <h3>🇦🇺 Other Tools</h3>
-        <a href="https://agcneranga.github.io/.k..h.-marker2/" class="tracker-link">AUS .K./.H. ( HARR ) Marker</a>
-        <a href="https://agcneranga.github.io/TARR_AUS_PA/" class="tracker-link">AUS .K./.H. (--TARR--) Marker</a>
+        <a href="https://agcneranga.github.io/.k..h.-marker2/" target="_blank" class="tracker-link">AUS .K./.H. ( HARR ) Marker</a>
+        <a href="https://agcneranga.github.io/TARR_AUS_PA/" target="_blank" class="tracker-link">AUS .K./.H. (--TARR--) Marker</a>
         <a href="#" onclick="underMaintenance()" class="tracker-link">AUS ( GREY ) Tracker (Maint.)</a>
     </div>
 
@@ -1158,12 +1158,10 @@ function scrollToBottom() {
     });
 }
 
-// NEW FUNCTION: Scroll to Converter
-function scrollToConverter() {
-    const converterSection = document.querySelector('.utility-block');
-    if (converterSection) {
-        converterSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+// MODIFIED: Open target sections in a NEW TAB instead of scrolling
+function openInNewTab(selector) {
+    const currentUrl = window.location.href.split('#')[0];
+    window.open(currentUrl + selector, '_blank');
 }
 
 // NEW FUNCTION: Layout Toggle
@@ -1244,6 +1242,7 @@ function updateOffsetOptions() {
 }
 updateOffsetOptions(); 
 
+// MODIFIED: Convert result opens in a NEW TAB alert/view
 function convert() {
     const input = document.getElementById('userTime').value;
     const offsetStr = document.getElementById('offset').value;
@@ -1268,7 +1267,13 @@ function convert() {
     let m = totalMins % 60;
     
     const slTime = ("0"+h).slice(-2) + ":" + ("0"+m).slice(-2);
+    
+    // Display result locally
     outputDiv.innerText = "🇱🇰 SL Time: " + slTime;
+    
+    // Optional: Open a new window showing the conversion result
+    const newWin = window.open("", "_blank", "width=300,height=200");
+    newWin.document.write("<h1 style='font-family:sans-serif; text-align:center;'>SL Time: " + slTime + "</h1>");
 }
 </script>
 </body>
