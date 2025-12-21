@@ -857,9 +857,10 @@ footer {
             👤
         </button>
         
-        <button class="nav-btn" onclick="openInNewTab('#main-content')">VIEW TRACKERS</button>
+        <button class="nav-btn" onclick="document.getElementById('main-content').scrollIntoView({ behavior: 'smooth' })">VIEW TRACKERS</button>
         
-        <button class="nav-btn" onclick="openInNewTab('.utility-block')">TIME CONVERTER</button>
+        <button class="nav-btn" onclick="document.getElementById('converter').scrollIntoView({ behavior: 'smooth' })">TIME CONVERTER</button>
+ 
         <button id="layout-toggle" class="nav-btn" onclick="toggleLayoutMode()">Default Layout</button>
         </div>
 </header>
@@ -1278,4 +1279,5 @@ function convert() {
 </script>
 </body>
 </html>
+
 
