@@ -880,7 +880,7 @@ footer {
         
         <button class="nav-btn" onclick="document.getElementById('converter').scrollIntoView({ behavior: 'smooth' })">TIME CONVERTER</button>
  
-        <button id="layout-toggle" class="nav-btn" onclick="toggleLayoutMode()">Default Layout</button>
+        <button id="layout-toggle" class="nav-btn" onclick="toggleLayoutMode()">Default</button>
         </div>
 </header>
 
@@ -1203,7 +1203,7 @@ function openInNewTab(selector) {
 let currentLayout = 0; // 0: Default, 1: Desktop, 2: Mobile
 const layoutToggleBtn = document.getElementById('layout-toggle');
 const mainContent = document.getElementById('main-content');
-const layoutModes = ['Default Layout', 'Desktop Layout', 'Mobile Layout'];
+const layoutModes = ['Default', 'Desktop', 'Mobile'];
 const layoutClasses = ['', 'desktop-layout', 'mobile-layout'];
 
 function toggleLayoutMode() {
