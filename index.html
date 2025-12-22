@@ -773,6 +773,21 @@ footer {
   to   { opacity: 1; transform: translateY(0); }
 }
 
+.blink-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    margin-right: 15px;
+    font-weight: bold;
+}
+
+.blink-link img {
+    width: 96px;      /* Adjust size here (16px to 20px is standard) */
+    height: 35px;
+    margin-right: 4px; /* Space between logo and text */
+    border-radius: 3px; /* Optional: rounds the corners slightly */
+}
+
 </style>
 </head>
 <body class="dark-mode"> 
@@ -829,9 +844,15 @@ footer {
     <div class="live-status">LIVE</div>
     
     <div class="quick-links-container">
-        <a href="https://www.punters.com.au/" target="_blank" class="blink-link" title="Visit Punters">PUNTERS</a>
-        <a href="https://www.attheraces.com/" target="_blank" class="blink-link" title="Visit AtTheRaces">ATR</a>
-        <a href="https://schedule.skyracing.com.au/" target="_blank" class="blink-link" title="Sky Racing Schedule">SKY-SCH</a>
+    <a href="https://www.punters.com.au/" target="_blank" class="blink-link" title="Visit Punters">
+        <img src="https://puntcdn.com/icons/punterslogodesktop.svg" alt="Punters Logo">
+    </a>
+    <a href="https://www.attheraces.com/" target="_blank" class="blink-link" title="Visit AtTheRaces">
+        <img src="https://www.attheraces.com/resources/img/branding/logo.png" alt="ATR Logo">
+    </a>
+    <a href="https://schedule.skyracing.com.au/" target="_blank" class="blink-link" title="Sky Racing Schedule">
+        <img src="https://upload.wikimedia.org/wikipedia/en/9/93/Sky_au_racing.png" alt="Sky Logo">
+    </a>
     </div>
     </div>
 
@@ -1277,7 +1298,6 @@ function convert() {
 </script>
 </body>
 </html>
-
 
 
 
