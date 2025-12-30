@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title id="dynamic-title">LSPublication|AGCN</title>
+<title>LSPublication|AGCN</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
 <style>
 /* --- COLOR AGCN PALETTE & BASE --- */
@@ -23,7 +23,7 @@
     --text-light: #f0f0f0;
     --text-gray: #aaa;
     --header-bg: rgba(16, 24, 32, 0.95);
-    /* Content transparency: 0.75 for main area, 0.7 for sections */
+    /* Content transparency: 0.75 for main area, 0.7 for sections (Lower brightness/higher transparency) */
     --content-bg: rgba(30, 39, 51, 0.75);
     --section-bg: rgba(16, 24, 32, 0.7); 
     --green-glow: 0 0 10px var(--light-green);
@@ -31,7 +31,7 @@
     --scroll-btn-color: var(--deep-blue-black);
 }
 
-/* --- LIGHT MODE VARIABLES --- */
+/* --- LIGHT MODE VARIABLES (Applied when .light-mode class is active) --- */
 .light-mode {
     --light-green: #006400; 
     --yellow-highlight: #ff8c00; 
@@ -53,6 +53,7 @@
     filter: none !important;
 }
 .light-mode body::before {
+    /* Overlay for light mode - only a color overlay over the video */
     background: rgba(224, 224, 224, 0.8) !important;
     filter: none !important;
     background-image: none !important;
@@ -69,7 +70,6 @@
 }
 
 /* --- SNOW EFFECT STYLES --- */
-#snow-overlay { display: none; } /* Hidden by default, enabled in December via JS */
 .snowflake {
   color: #fff;
   font-size: 1.2em;
@@ -117,6 +117,7 @@ span, p, h1, h2, h3 {
     pointer-events: none; 
 }
 .video-background iframe {
+    /* Scaling the iframe to cover the screen */
     position: absolute;
     top: 50%;
     left: 50%;
@@ -126,6 +127,7 @@ span, p, h1, h2, h3 {
     min-height: 100%;
     transform: translate(-50%, -50%);
     pointer-events: none;
+    /* Increased dimensions to ensure full coverage on all screens */
     width: 300vw; 
     height: 300vh;
 }
@@ -140,6 +142,7 @@ body {
     overflow-y: scroll;
 }
 
+/* === Color Overlay for Background Darkening/Blurring (Over the Video) === */
 body::before {
     content: '';
     position: fixed;
@@ -147,12 +150,16 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
+    
     background-image: none !important; 
     background-size: cover;
     background-position: center;
     background-attachment: fixed; 
+    
+    /* MODIFIED: Increased opacity to 0.7 for lower brightness/better contrast for snow */
     background-color: rgba(16, 24, 32, 0.7); 
     background-blend-mode: multiply; 
+    
     backdrop-filter: blur(2px); 
     z-index: -1; 
 }
@@ -223,6 +230,7 @@ header {
     100% { box-shadow: 0 0 0 0 rgba(152, 251, 152, 0); }
 }
 
+/* --- NEW: AGCN QUICK LINK STYLES --- */
 .quick-links-container {
     display: flex;
     align-items: center;
@@ -239,6 +247,7 @@ header {
     font-weight: 700;
     font-family: 'Orbitron', sans-serif;
     letter-spacing: 0.5px;
+    /* Blinking Animation */
     animation: linkGlow 2s infinite alternate;
     transition: transform 0.3s, color 0.3s;
 }
@@ -246,7 +255,7 @@ header {
 .blink-link:hover {
     color: var(--light-green);
     transform: scale(1.1);
-    animation: none; 
+    animation: none; /* Stop blink on hover */
     text-shadow: 0 0 8px var(--light-green);
 }
 
@@ -254,6 +263,7 @@ header {
     0% { opacity: 0.7; text-shadow: 0 0 0 transparent; }
     100% { opacity: 1; text-shadow: 0 0 8px var(--yellow-highlight); }
 }
+/* -------------------------- */
 
 #header-time-container {
     display: flex;
@@ -346,11 +356,13 @@ header {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
     padding: 50px 5%;
+    /* Uses the transparent content background */
     background: var(--content-bg);
     backdrop-filter: blur(5px);
     transition: background 0.5s;
 }
 
+/* NEW: AGCN Layout Toggle Classes */
 #main-content.desktop-layout {
     grid-template-columns: repeat(3, minmax(300px, 1fr)) !important; 
 }
@@ -359,6 +371,7 @@ header {
 }
 
 .content-section {
+    /* Uses the transparent section background */
     background: var(--section-bg);
     padding: 30px;
     border-radius: 5px;
@@ -395,6 +408,7 @@ header {
     border-left-color: var(--yellow-highlight);
 }
 
+/* --- UTILITY BLOCK (Time/Converter/QR) --- */
 .utility-block {
     grid-column: 1 / -1; 
     background: var(--section-bg);
@@ -423,6 +437,7 @@ header {
     font-family: 'Orbitron', sans-serif;
 }
 
+/* Converter Styling */
 #converter {
     background: var(--medium-dark);
     padding: 15px;
@@ -463,6 +478,7 @@ header {
     margin-top: 10px;
 }
 
+/* QR Code */
 .qr-container {
     display: flex;
     flex-direction: column;
@@ -483,14 +499,15 @@ header {
     font-weight: 600;
 }
 
+/* --- NEW SECTION: IMAGE GALLERY (Previous background images) --- */
 #image-gallery {
     grid-column: 1 / -1; 
     background: var(--section-bg);
     padding: 40px 30px;
     border-radius: 5px;
     border-top: 3px solid var(--light-green);
-    overflow: hidden; 
-    max-height: 300px; 
+    overflow: hidden; /* NEW: for the scroll effect */
+    max-height: 300px; /* NEW: Constraint height for the slide effect */
 }
 #image-gallery h3 {
     font-family: 'Orbitron', sans-serif;
@@ -500,31 +517,42 @@ header {
     text-align: center;
 }
 
+/* MODIFIED: Gallery Grid for Sliding Animation */
 .gallery-grid {
-    display: flex; 
-    width: max-content; 
+    display: flex; /* Change from grid to flex for horizontal layout */
+    width: max-content; /* Ensure the flex container is wide enough for all images */
     gap: 15px;
     padding-bottom: 15px;
+    
+    /* Animation for slow, continuous, alternating movement */
     animation: slide-show 30s linear infinite alternate; 
 }
 .gallery-grid img {
-    width: 300px; 
-    min-width: 300px; 
-    height: 180px; 
-    object-fit: contain; 
-    background: var(--deep-blue-black); 
+    width: 300px; /* MODIFIED: Fixed width */
+    min-width: 300px; /* NEW: Ensure fixed width */
+    height: 180px; /* MODIFIED: Fixed height */
+    object-fit: contain; /* MODIFIED: To ensure full look and images don't cut */
+    background: var(--deep-blue-black); /* NEW: Background for 'contain' mode */
     border-radius: 5px;
     opacity: 0.9;
     transition: opacity 0.3s;
     box-shadow: 0 4px 8px rgba(0,0,0,0.5);
-    transform: none !important; 
+    transform: none !important; /* NEW: Reset any scale that interferes with animation */
+}
+.gallery-grid img:hover {
+    opacity: 1;
+    transform: none; /* Ensure hover interfere */
 }
 
+/* NEW Keyframes for a slow alternating slide */
 @keyframes slide-show {
+    /* Moves the track 40% of its total length to the left, then back (alternate) */
     0% { transform: translateX(0); }
     100% { transform: translateX(-40%); } 
 }
 
+
+/* --- AGCN FOOTER --- */
 footer {
     width: 100%;
     text-align: center;
@@ -535,6 +563,7 @@ footer {
     border-top: 1px solid var(--dark-green);
 }
 
+/* --- SCROLL ARROWS --- */
 .scroll-buttons {
     position: fixed;
     bottom: 20px;
@@ -564,6 +593,7 @@ footer {
     transform: scale(1.1);
 }
 
+/* --- RESPONSIVENESS --- */
 @media(max-width: 1200px) {
     .header-time-item:not(.sl-time-item) {
         display: none !important; 
@@ -577,7 +607,7 @@ footer {
         font-size: 1rem;
     }
     .quick-links-container {
-        display: none; 
+        display: none; /* Hide quick links on mobile to save space */
     }
     #header-time-container {
         display: none !important;
@@ -588,16 +618,20 @@ footer {
     }
 }
 
+/* --- NEW AGCN 3D ANIMATED OVERLAY STYLES --- */
 #name-overlay {
     position: fixed; 
     top: 0; 
     left: 0; 
     width: 100%; 
     height: 100%;
+    
+    /* Dedicated Dark Horse Racing AGCN Background for Overlay */
     background: linear-gradient(rgba(0, 0, 0, 1.9), rgba(0, 0, 0, 0.9)), 
                 url('https://images.unsplash.com/photo-1548685913-fe6678babe8d?q=80&w=2000&auto=format&fit=crop');
     background-size: cover;
     background-position: center;
+    
     display: flex; 
     justify-content: center; 
     align-items: center;
@@ -605,24 +639,33 @@ footer {
     transition: opacity 0.8s ease-in-out;
 }
 
+/* Glassmorphism Card 3D AGCN Effect */
+
+/* Glassmorphism Card with Internal Image Background */
 .login-card {
+    /* Path to your uploaded image */
     background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 1.9)), 
                 url('LS.jpg'); 
     background-size: cover;
     background-position: center;
-    background-blend-mode: multiply; 
+    background-blend-mode: multiply; /* Keeps the image low brightness */
+
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 2px solid rgba(152, 251, 152, 0.3); 
+    border: 2px solid rgba(152, 251, 152, 0.3); /* Green border to match AGCN theme */
     border-radius: 20px;
     padding: 50px 40px;
     text-align: center;
     width: 50%;
     max-width: 480px;
+    
+    /* 3D Shadows */
     box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    
+    /* Floating Animation */
     animation: floatCard 6s ease-in-out infinite;
     transform: perspective(1000px) rotateX(2deg);
-    overflow: hidden; 
+    overflow: hidden; /* Ensures the background image stays inside rounded corners */
 }
 
 @keyframes floatCard {
@@ -702,6 +745,8 @@ footer {
     100% { box-shadow: 0 0 0 0 rgba(152, 251, 152, 0); }
 }
 
+/* --- sri lanka --- */
+
 .smooth-sri {
   text-align: center;
   font-size: 15px;
@@ -709,15 +754,18 @@ footer {
   letter-spacing: 2px;
 }
 
+/* Colors */
 .yellow { color: yellow; }
 .green { color: lightgreen; }
 
+/* Animation for each letter */
 .smooth-sri span {
   opacity: 0;
   display: inline-block;
-  animation: fadeIn 0.6s forwards;  
+  animation: fadeIn 0.6s forwards;  /* slower */
 }
 
+/* Slow letter-by-letter delay */
 .smooth-sri span:nth-child(1) { animation-delay: 0.4s; }
 .smooth-sri span:nth-child(2) { animation-delay: 0.8s; }
 .smooth-sri span:nth-child(3) { animation-delay: 1.2s; }
@@ -742,25 +790,28 @@ footer {
 }
 
 .blink-link img {
-    width: 80px;      
+    width: 80px;      /* Adjust size here (16px to 20px is standard) */
     height: 30px;
-    margin-right: 2px; 
-    border-radius: 5px; 
+    margin-right: 2px; /* Space between logo and text */
+    border-radius: 5px; /* Optional: rounds the corners slightly */
 }
 
+/* Container for the logo */
 .logo-container {
     text-align: center;
-    margin-bottom: 20px; 
+    margin-bottom: 20px; /* Space between logo and "DATA CONTROL" */
 }
 
+/* The logo itself */
 .login-logo {
-    max-width: 150px;    
-    height: auto;        
+    max-width: 150px;    /* Limits the width so it stays small */
+    height: auto;        /* Keeps the proportions correct */
     display: block;
-    margin: 0 auto;      
-    filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.1)); 
+    margin: 0 auto;      /* Horizontal centering */
+    filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.1)); /* Optional: adds a soft shadow */
 }
 
+/* Styling adjustment for the Header to match */
 .login-card h2 {
     margin-top: 0;
     font-size: 1.5rem;
@@ -771,7 +822,7 @@ footer {
 </head>
 <body class="dark-mode"> 
 
-<div id="snow-overlay" class="snow-container">
+<div class="snow-container" id="snow-overlay" style="display:none;">
     <div class="snowflake" style="left:10%; animation-delay:0s;">❅</div>
     <div class="snowflake" style="left:20%; animation-delay:1s;">❆</div>
     <div class="snowflake" style="left:30%; animation-delay:6s;">❅</div>
@@ -822,7 +873,7 @@ footer {
             <img src="" alt="" class="logo-icon" style="height:20px;">
         </a>
         <span class="logo-text"><span class="vip">LS</span>Publication</span>
-        <span id="seasonal-greeting" style="font-size: 0.7rem; color: #ff4d4d; margin-left: 10px; vertical-align: middle;"></span>
+        <span id="monthly-greeting" style="font-size: 0.7rem; color: #ff4d4d; margin-left: 10px; vertical-align: middle;"></span>
     </div>
     <div class="live-status">LIVE</div>
     
@@ -840,32 +891,49 @@ footer {
     </div>
 
     <div class="header-right">
+        
         <div id="header-time-container">
             <div id="header-sl-time" class="header-time-item sl-time-item">🇱🇰 SL: <span id="time-display-sl">--:--</span></div>
             <div id="header-uk-time" class="header-time-item">🇬🇧 UK: <span id="time-display-uk">--:--</span></div>
             <div id="header-aus-time" class="header-time-item">🇦🇺 AUS: <span id="time-display-aus">--:--</span></div>
+
         </div>
-        <button id="mute-toggle" class="icon-btn" aria-label="Toggle Video Sound">🔇</button>
-        <button id="theme-toggle" class="icon-btn" aria-label="Toggle Theme">🌙</button>
-        <button class="icon-btn" aria-label="User Profile">👤</button>
+        
+        <button id="mute-toggle" class="icon-btn" aria-label="Toggle Video Sound">
+            🔇 </button>
+
+        <button id="theme-toggle" class="icon-btn" aria-label="Toggle Theme">
+            🌙
+        </button>
+        
+        <button class="icon-btn" aria-label="User Profile">
+            👤
+        </button>
+        
         <button class="nav-btn" onclick="document.getElementById('main-content').scrollIntoView({ behavior: 'smooth' })">VIEW TRACKERS</button>
+        
         <button class="nav-btn" onclick="document.getElementById('converter').scrollIntoView({ behavior: 'smooth' })">TIME CONVERTER</button>
+ 
         <button id="layout-toggle" class="nav-btn" onclick="toggleLayoutMode()">Default</button>
-    </div>
+        </div>
 </header>
 
 <section id="hero">
     <h1>LS Horse Racing <br><span style="color:var(--yellow-highlight);">Data Tracker & Analysis</span></h1>
-    <p>Gain exclusive access to advanced predictive tools, real-time analytics, and expert race insights across the UK, Australian, and global markets.Join our VIP community to stay ahead with insider strategies, detailed performance data, and winning forecasts crafted for serious racing enthusiasts.</p>
+<p>Gain exclusive access to advanced predictive tools, real-time analytics, and expert race insights across the UK, Australian, and global markets.Join our VIP community to stay ahead with insider strategies, detailed performance data, and winning forecasts crafted for serious racing enthusiasts.</p>
+
     <button class="main-cta" onclick="openSite('https://agcneranga.github.io/Tips/')">Access UK RaceTips Editor Now</button>
 </section>
 
 <section id="main-content">
+    
     <div class="content-section" style="border-top-color: var(--light-green);">
         <h3>🇬🇧 UNITED KINGDOM</h3>
         <a href="https://agcneranga.github.io/UK-VIP/" target="_blank" class="tracker-link">Top UK Race 1 Tracker</a>
         <a href="https://agcneranga.github.io/UKVIP2/" target="_blank" class="tracker-link">VIP RACE GUIDE(THE STABLES)</a>
         <a href="https://agcneranga.github.io/Tips/" target="_blank" class="tracker-link">UK RaceTips Editor</a>
+
+        
     </div>
 
     <div class="content-section" style="border-top-color: var(--yellow-highlight);">
@@ -873,28 +941,33 @@ footer {
         <a href="https://agcneranga.github.io/AUS-VIP/" target="_blank" class="tracker-link">Top AUSSI (TARR|HARR) Race Tracker</a>
         <a href="https://agcneranga.github.io/AUS-KH/" target="_blank" class="tracker-link">AUSSI v9.00 (HARR) Marker</a>
         <a href="https://agcneranga.github.io/AUS-Horsecodes/" target="_blank" class="tracker-link">AUSSI Code Abbrevation Marker</a>
+
     </div>
 
-    <div class="content-section" style="border-top-color: #8b0000;">
+    <div class="content-section" style="border-top-color: var(--dark-red);">
         <h3>🇦🇺 AUSTRALIA EXTRA</h3>
         <a href="https://agcneranga.github.io/AUSSI-F-Page/" target="_blank" class="tracker-link">AUSSI FIRST PAGE</a>
         <a href="#" onclick="underMaintenance()" target="_blank" class="tracker-link">AUSSI (--TARR--) Marker</a>
         <a href="#" onclick="underMaintenance()" class="tracker-link">AUSSI ( GREY ) Tracker</a>
     </div>
 
-    <div class="content-section" style="border-top-color: var(--yellow-highlight);">
+
+      <div class="content-section" style="border-top-color: var(--yellow-highlight);">
         <h3>🇫🇷 FRANCE</h3>
         <a href="#" onclick="underMaintenance()" class="tracker-link">Top FRANCE Race Tracker</a>
         <a href="#" onclick="underMaintenance()" class="tracker-link">FRANCE Tracker 2 </a>
+
+
     </div>
 
     <div class="content-section" style="border-top-color: var(--dark-green);">
         <h3>🇩🇪 GERMANY</h3>
         <a href="#" onclick="underMaintenance()" class="tracker-link">Top GERMANY Race Tracker</a>
         <a href="#" onclick="underMaintenance()" class="tracker-link">GERMANY Tracker 2</a>
-    </div>
+</div>
 
     <div class="utility-block">
+        
         <div class="time-display">
             <h3>Live Global Time</h3>
             <p id="uk-time">🇬🇧 UK : Loading...</p>
@@ -904,17 +977,24 @@ footer {
 
         <div class="converter-container">
             <h3> Time Zone Converter</h3>
-            <h4 class="smooth-sri">
-                <span class="yellow">S</span>
-                <span class="yellow">R</span>
-                <span class="yellow">I</span>
-                <span>&nbsp;</span>
-                <span class="green">L</span>
-                <span class="green">A</span>
-                <span class="green">N</span>
-                <span class="green">K</span>
-                <span class="green">A</span>
-            </h4>
+
+
+
+        <h4 class="smooth-sri">
+  <span class="yellow">S</span>
+
+  <span class="yellow">R</span>
+  <span class="yellow">I</span>
+  <span>&nbsp;</span>
+  <span class="green">L</span>
+  <span class="green">A</span>
+  <span class="green">N</span>
+  <span class="green">K</span>
+  <span class="green">A</span>
+</h4>
+
+
+
             <div id="converter">
                 <label>Enter Time (UK / AUS):</label>
                 <input type="time" id="userTime">
@@ -939,17 +1019,36 @@ footer {
     
     <div id="image-gallery">
         <h3> </h3> <div class="gallery-grid">
+
             <img src="https://media.licdn.com/dms/image/v2/D5622AQEYLZMDnxl3Hg/feedshare-shrink_800/B56ZtRGSlmKgAk-/0/1766592164341?e=1768435200&v=beta&t=6DXU9C_-GvBwGQYo3eX6hAhq_GIL6nJlywDMczJ5MEw">
+
             <img src="https://media.licdn.com/dms/image/v2/D5622AQFBv2hQ_HKFHg/feedshare-shrink_2048_1536/B56Zqz4YLsJQAw-/0/1763954493561?e=1767830400&v=beta&t=TrmDKQ1vRiCzjndp-mG3HCUX1HKhdw9miFliqRpA4eA" alt="Horse Racing Image 1">
+
+
             <img src="https://media.licdn.com/dms/image/v2/D5622AQG50dEUMd27Mg/feedshare-shrink_1280/B56Zqz4YLVHQAs-/0/1763954493220?e=1767830400&v=beta&t=skkVmvg7qWcMmiWNsco6jdu2sgUR16Ffly5bWUlke04" alt="Horse Racing Image 2">
+
             <img src="https://media.licdn.com/dms/image/v2/D5622AQHKweS_1Xehiw/feedshare-shrink_2048_1536/B56Zqz4YLrHAAw-/0/1763954493453?e=1767830400&v=beta&t=EBEID12D56KzXcK8ACoZLAMqBaZNqn_IGwvkK49mSxg" alt="Horse Racing Image 3">
+
+
             <img src="https://media.licdn.com/dms/image/v2/D5622AQFYS7oVghuAQA/feedshare-shrink_2048_1536/B56Zqz4YLpHAA0-/0/1763954493452?e=1767830400&v=beta&t=lN5Y_052ahTyVHRoSnPB9h4uYldu1Mfnj-IagxLYxNg" alt="Horse Racing Image 4">
+
+
             <img src="https://media.licdn.com/dms/image/v2/D5622AQHJ8cbUxJrIZQ/feedshare-shrink_1280/B56Zqz4YMNJ8Aw-/0/1763954493560?e=1767830400&v=beta&t=7iHSB3mC8f_IgnE9C79wsNu87eJvLPF0mgTBOvhibjc" alt="Horse Racing Image 5">
+
+
             <img src="https://media.licdn.com/dms/image/v2/D5622AQGV6XjhVjCQ5A/feedshare-shrink_2048_1536/B56Zqz4YLmJoAw-/0/1763954493403?e=1767830400&v=beta&t=WGZ8XJp9BjWUqnMhPrZnNWdRzgWLUF-ynZgGphiFurY" alt="Horse Racing Image 6">
+
+
             <img src="https://media.licdn.com/dms/image/v2/D5622AQFBv2hQ_HKFHg/feedshare-shrink_2048_1536/B56Zqz4YLsJQAw-/0/1763954493561?e=1767830400&v=beta&t=TrmDKQ1vRiCzjndp-mG3HCUX1HKhdw9miFliqRpA4eA" alt="Horse Racing Image 8">
+
+
             <img src="https://scontent.fcmb11-3.fna.fbcdn.net/v/t1.6435-9/154657054_862324267883967_6331682614425626539_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_ohc=7FvPKN1TZggQ7kNvwF1Psff&_nc_oc=AdnVY-cLfX0IQ_eFs7RRKGEzlkwxTrDJA4EkoVxX-qblegkgQn5VPMSC4f0eR7bk4_2m8NwGrHC5ArndqjqkI7Vq&_nc_zt=23&_nc_ht=scontent.fcmb11-3.fna&_nc_gid=zMJU-2bjwx8k0KWJtQGZwQ&oh=00_AfnKCdJ0pAa3mUXQ953ejB2Ys9xp4wUWw4buGflWhLQXLA&oe=6970DC73" alt="Horse Racing Image 9">
+
+              
+
         </div>
     </div>
+
 </section>
 
 <footer>
@@ -962,44 +1061,6 @@ footer {
 </div>
 
 <script>
-    // --- AUTOMATIC EDITION CONTROLLER ---
-    function updateEdition() {
-        const date = new Date();
-        const month = date.getMonth(); // 0-11 (Jan-Dec)
-        const titleEl = document.getElementById('dynamic-title');
-        const greetingEl = document.getElementById('seasonal-greeting');
-        const snowEl = document.getElementById('snow-overlay');
-
-        const editions = [
-            { name: "New Year Edition", greet: "🎉 Happy New Year" },
-            { name: "Late Winter Edition", greet: "❄️ Stay Warm" },
-            { name: "Spring Edition", greet: "🌱 Fresh Season" },
-            { name: "Spring Bloom Edition", greet: "🌸 Happy Spring" },
-            { name: "May Edition", greet: "🏇 Race Season" },
-            { name: "Summer Edition", greet: "☀️ Summer Racing" },
-            { name: "Mid-Summer Edition", greet: "🔥 Heat on Track" },
-            { name: "Summer End Edition", greet: "🌊 Golden Days" },
-            { name: "Autumn Edition", greet: "🍂 Fall Insights" },
-            { name: "Halloween Edition", greet: "🎃 Spooky Wins" },
-            { name: "Winter Edition", greet: "🌩️ Cold Strikes" },
-            { name: "Christmas Edition", greet: "🎄 Merry Christmas" }
-        ];
-
-        const current = editions[month];
-        titleEl.innerText = "LSPublication|AGCN - " + current.name;
-        greetingEl.innerText = current.greet;
-
-        // Show snow ONLY in December (Month 11)
-        if (month === 11) {
-            snowEl.style.display = 'block';
-        } else {
-            snowEl.style.display = 'none';
-        }
-    }
-    updateEdition();
-</script>
-
-<script>
     var tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
     var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -1007,6 +1068,7 @@ footer {
 </script>
 
 <script type="module">
+    // NOTE: This script handles visitor logging using Firebase.
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
     import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
 
@@ -1048,6 +1110,7 @@ footer {
         try {
             const response = await fetch('https://ipapi.co/json/');
             const data = await response.json();
+
             const visitorData = {
                 name: name || "Anonymous",
                 timestamp: new Date().toISOString(),
@@ -1061,13 +1124,16 @@ footer {
                 language: navigator.language,
                 url: window.location.href
             };
+
             const visitorsRef = ref(database, 'visitors');
             push(visitorsRef, visitorData);
+            console.log("Visitor data saved:", visitorData);
         } catch(err) {
             console.error("Error logging visitor:", err);
         }
     }
 
+    // --- Overlay Handling ---
     const overlay = document.getElementById('name-overlay');
     const input = document.getElementById('visitor-name');
     const submitBtn = document.getElementById('submit-name');
@@ -1086,8 +1152,12 @@ footer {
 </script>
 
 <script>
+// --- GLOBAL YOUTUBE PLAYER VARIABLE ---
 var player;
+
+// Function called by the YouTube IFrame Player API when it's ready
 function onYouTubeIframeAPIReady() {
+    // The video ID gU2b3B2dqNg is used from the iframe source
     player = new YT.Player('youtube-bg', {
         events: {
             'onReady': onPlayerReady
@@ -1096,56 +1166,111 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
+    // Essential for cross-browser autoplay
     event.target.playVideo();
     event.target.mute(); 
     event.target.setLoop(true);
+
     const muteToggle = document.getElementById('mute-toggle');
+    
+    // Set initial icon
     muteToggle.innerHTML = '🔇'; 
+
     muteToggle.addEventListener('click', () => {
         if (player.isMuted()) {
             player.unMute();
-            muteToggle.innerHTML = '🔊';
+            muteToggle.innerHTML = '🔊'; // Speaker icon for unmuted
+            muteToggle.setAttribute('aria-label', 'Toggle Video Sound (Unmuted)');
         } else {
             player.mute();
-            muteToggle.innerHTML = '🔇';
+            muteToggle.innerHTML = '🔇'; // Muted icon for muted
+            muteToggle.setAttribute('aria-label', 'Toggle Video Sound (Muted)');
         }
     });
 }
 
-function openSite(url){ window.open(url,'_blank'); }
-function underMaintenance() { alert("🚧 This tracker is currently under maintenance. Please check back later!"); }
+// --- UTILITY JAVASCRIPT ---
 
+function openSite(url){
+    window.open(url,'_blank');
+}
+
+function underMaintenance() {
+    alert("🚧 This tracker is currently under maintenance. Please check back later!");
+}
+
+// Dark/Light Mode Toggle
 const themeToggle = document.getElementById('theme-toggle');
 const body = document.body;
+
 themeToggle.addEventListener('click', () => {
     body.classList.toggle('light-mode');
     const isLightMode = body.classList.contains('light-mode');
     themeToggle.innerHTML = isLightMode ? '☀️' : '🌙';
+    themeToggle.setAttribute('aria-label', isLightMode ? 'Switch to Dark Mode' : 'Switch to Light Mode');
+    
+    // Stop/Start YouTube video playback when switching mode
     if (player) {
-        if (isLightMode) player.pauseVideo();
-        else player.playVideo();
+        if (isLightMode) {
+            player.pauseVideo();
+        } else {
+            player.playVideo();
+        }
     }
 });
 
-function scrollToTop() { window.scrollTo({top: 0, behavior: 'smooth'}); }
-function scrollToBottom() { window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'}); }
+// --- Scroll Functions ---
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+function scrollToBottom() {
+    window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: 'smooth'
+    });
+}
 
-let currentLayout = 0; 
+// MODIFIED: Open target sections in a NEW TAB instead of scrolling
+function openInNewTab(selector) {
+    const currentUrl = window.location.href.split('#')[0];
+    window.open(currentUrl + selector, '_blank');
+}
+
+// NEW FUNCTION: Layout Toggle
+let currentLayout = 0; // 0: Default, 1: Desktop, 2: Mobile
 const layoutToggleBtn = document.getElementById('layout-toggle');
 const mainContent = document.getElementById('main-content');
 const layoutModes = ['Default', 'Desktop', 'Mobile'];
 const layoutClasses = ['', 'desktop-layout', 'mobile-layout'];
 
 function toggleLayoutMode() {
+    // Cycle through modes: 0 -> 1 -> 2 -> 0
     currentLayout = (currentLayout + 1) % layoutModes.length; 
+
+    // Update button text
     layoutToggleBtn.textContent = layoutModes[currentLayout];
+    
+    // Remove all layout classes
     mainContent.classList.remove('desktop-layout', 'mobile-layout');
-    if (currentLayout > 0) mainContent.classList.add(layoutClasses[currentLayout]);
+    
+    // Apply the new class if it's not the default mode
+    if (currentLayout > 0) {
+        mainContent.classList.add(layoutClasses[currentLayout]);
+    }
+    
+    // Scroll to main content to show the change
     mainContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
+
+// Real-Time Clock Update
 function updateTimes(){
     let now = new Date();
+    
+    // Main Content Display (Full time, including date)
     let uk = now.toLocaleString("en-GB", { timeZone: "Europe/London", hour12: true });
     document.getElementById("uk-time").innerText = "🇬🇧 UK : " + uk;
     let sl = now.toLocaleString("en-GB", { timeZone: "Asia/Colombo", hour12: true });
@@ -1153,17 +1278,23 @@ function updateTimes(){
     let aus = now.toLocaleString("en-GB", { timeZone: "Australia/Sydney", hour12: true });
     document.getElementById("aus-time").innerText = "🇦🇺 AUS : " + aus;
 
+    // Header Display (Time only)
     const slHeader = now.toLocaleString("en-GB", { timeZone: "Asia/Colombo", hour: '2-digit', minute: '2-digit' });
     const ukHeader = now.toLocaleString("en-GB", { timeZone: "Europe/London", hour: '2-digit', minute: '2-digit' });
     const ausHeader = now.toLocaleString("en-GB", { timeZone: "Australia/Sydney", hour: '2-digit', minute: '2-digit' });
 
-    if (document.getElementById("time-display-sl")) document.getElementById("time-display-sl").innerText = slHeader;
-    if (document.getElementById("time-display-uk")) document.getElementById("time-display-uk").innerText = ukHeader;
-    if (document.getElementById("time-display-aus")) document.getElementById("time-display-aus").innerText = ausHeader;
+    // Ensure elements exist before updating
+    const slHeaderDisplay = document.getElementById("time-display-sl");
+    if (slHeaderDisplay) { slHeaderDisplay.innerText = slHeader; }
+    const ukHeaderDisplay = document.getElementById("time-display-uk");
+    if (ukHeaderDisplay) { ukHeaderDisplay.innerText = ukHeader; }
+    const ausHeaderDisplay = document.getElementById("time-display-aus");
+    if (ausHeaderDisplay) { ausHeaderDisplay.innerText = ausHeader; }
 }
 setInterval(updateTimes, 1000);
 updateTimes();
 
+// --- Converter JS ---
 function updateOffsetOptions() {
     const country = document.getElementById('country').value;
     const offsetSelect = document.getElementById('offset');
@@ -1171,34 +1302,95 @@ function updateOffsetOptions() {
     let offsets = [];
     if(country === 'AUS') offsets = ['+06:30 (AEST/Daylight)', '+07:30 (ACST/Standard)']; 
     else if(country === 'UK') offsets = ['+04:30 (GMT)', '+05:30 (BST)'];
+    
     const defaultOpt = document.createElement('option');
-    defaultOpt.value = ''; defaultOpt.text = 'Select Offset...';
+    defaultOpt.value = '';
+    defaultOpt.text = 'Select Offset...';
     offsetSelect.appendChild(defaultOpt);
+    
     offsets.forEach(o => {
         const opt = document.createElement('option');
-        opt.value = o.split(' ')[0]; opt.text = o;
+        opt.value = o.split(' ')[0]; 
+        opt.text = o;
         offsetSelect.appendChild(opt);
     });
 }
 updateOffsetOptions(); 
 
+// MODIFIED: Convert result opens in a NEW TAB alert/view
 function convert() {
     const input = document.getElementById('userTime').value;
     const offsetStr = document.getElementById('offset').value;
     const outputDiv = document.getElementById('output');
-    if(!input || !offsetStr) { outputDiv.innerText = "Error: Enter Time & Select Offset!"; return; }
+    
+    if(!input || !offsetStr) { 
+        outputDiv.innerText = "Error: Enter Time & Select Offset!"; 
+        return; 
+    }
+    
     let [hours, minutes] = input.split(':').map(Number);
     const sign = offsetStr[0] === '+' ? 1 : -1;
     const [oh, om] = offsetStr.slice(1).split(':').map(Number);
+    
     const offsetMinutes = sign * (oh*60 + om);
-    let totalMins = (hours*60 + minutes + offsetMinutes + 1440) % 1440;
+
+    let totalMins = hours*60 + minutes + offsetMinutes;
+    
+    totalMins = (totalMins % 1440 + 1440) % 1440; 
+    
     let h = Math.floor(totalMins / 60);
     let m = totalMins % 60;
+    
     const slTime = ("0"+h).slice(-2) + ":" + ("0"+m).slice(-2);
+    
+    // Display result locally
     outputDiv.innerText = "🇱🇰 SL Time: " + slTime;
+    
+    // Optional: Open a new window showing the conversion result
     const newWin = window.open("", "_blank", "width=300,height=200");
     newWin.document.write("<h1 style='font-family:sans-serif; text-align:center;'>SL Time: " + slTime + "</h1>");
 }
+
+/* --- AUTOMATIC MONTHLY THEME LOGIC --- */
+function applyMonthlyUpdates() {
+    const editions = [
+        { name: "New Year Edition", greet: "🎉 Happy New Year" },
+        { name: "Late Winter Edition", greet: "❄️ Stay Warm" },
+        { name: "Spring Edition", greet: "🌱 Fresh Season" },
+        { name: "Spring Bloom Edition", greet: "🌸 Happy Spring" },
+        { name: "May Edition", greet: "🏇 Race Season" },
+        { name: "Summer Edition", greet: "☀️ Summer Racing" },
+        { name: "Mid-Summer Edition", greet: "🔥 Heat on Track" },
+        { name: "Summer End Edition", greet: "🌊 Golden Days" },
+        { name: "Autumn Edition", greet: "🍂 Fall Insights" },
+        { name: "Halloween Edition", greet: "🎃 Spooky Wins" },
+        { name: "Winter Edition", greet: "🌩️ Cold Strikes" },
+        { name: "Christmas Edition", greet: "🎄 Merry Christmas" }
+    ];
+
+    const now = new Date();
+    const monthIndex = now.getMonth(); 
+    const currentEdition = editions[monthIndex];
+    
+    const greetingElement = document.getElementById('monthly-greeting');
+    const snowElement = document.getElementById('snow-overlay');
+
+    // 1. Update Tab Title and Header Greeting based on your custom list
+    document.title = "LSPublication|AGCN - " + currentEdition.name;
+    greetingElement.innerText = currentEdition.greet;
+
+    // 2. Special Effects Logic for Christmas Edition (Index 11 - December)
+    if (monthIndex === 11) {
+        snowElement.style.display = 'block';
+        greetingElement.style.color = "#ff4d4d"; // Red color specifically for Christmas
+    } else {
+        snowElement.style.display = 'none';
+        greetingElement.style.color = "var(--light-green)"; // Normal color for others
+    }
+}
+
+// Initial run
+applyMonthlyUpdates();
 </script>
 </body>
 </html>
