@@ -556,12 +556,106 @@ header {
 footer {
     width: 100%;
     text-align: center;
-    font-size: 0.8rem;
-    color: var(--text-gray);
-    padding: 15px 0;
+    padding: 30px 0;
     background: var(--header-bg);
     border-top: 1px solid var(--dark-green);
 }
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer-nav {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin-bottom: 15px;
+}
+
+.footer-link {
+    color: var(--text-gray);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: color 0.3s;
+    cursor: pointer;
+}
+
+.footer-link:hover {
+    color: var(--light-green);
+}
+
+.footer-copy {
+    font-size: 0.8rem;
+    color: var(--text-gray);
+}
+
+/* --- MODAL SYSTEM FOR ABOUT/TERMS/PRIVACY --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px);
+    z-index: 10000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-card {
+    background: var(--medium-dark);
+    border: 2px solid var(--light-green);
+    border-radius: 15px;
+    max-width: 700px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 40px;
+    position: relative;
+    box-shadow: 0 0 30px rgba(152, 251, 152, 0.2);
+    animation: modalIn 0.4s ease-out;
+}
+
+@keyframes modalIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.close-modal {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 1.5rem;
+    color: var(--text-gray);
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close-modal:hover {
+    color: var(--yellow-highlight);
+}
+
+.modal-card h2 {
+    font-family: 'Orbitron', sans-serif;
+    color: var(--light-green);
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--dark-green);
+    padding-bottom: 10px;
+}
+
+.modal-body {
+    color: var(--text-light);
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.modal-body p { margin-bottom: 15px; }
 
 /* --- SCROLL ARROWS --- */
 .scroll-buttons {
@@ -615,6 +709,10 @@ footer {
     #hero h1 { font-size: 2.5rem; }
     #main-content {
         grid-template-columns: 1fr; 
+    }
+    .footer-nav {
+        flex-direction: column;
+        gap: 10px;
     }
 }
 
@@ -857,6 +955,15 @@ footer {
     </div>
 </div>
 
+<div id="info-modal" class="modal-overlay">
+    <div class="modal-card">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <h2 id="modal-title">Title</h2>
+        <div id="modal-content" class="modal-body">
+            </div>
+    </div>
+</div>
+
 <div class="video-background">
     <iframe id="youtube-bg" 
             src="https://www.youtube.com/embed/gU2b3B2dqNg?autoplay=1&mute=1&loop=1&playlist=gU2b3B2dqNg&controls=0&rel=0&showinfo=0" 
@@ -1052,8 +1159,16 @@ footer {
 </section>
 
 <footer>
-    &copy; 2026 | LS Publication Dept. | Developed by charith Neranga
-
+    <div class="footer-content">
+        <div class="footer-nav">
+            <a class="footer-link" onclick="openModal('about')">ABOUT US</a>
+            <a class="footer-link" onclick="openModal('terms')">TERMS OF SERVICE</a>
+            <a class="footer-link" onclick="openModal('privacy')">PRIVACY POLICY</a>
+        </div>
+        <div class="footer-copy">
+            &copy; 2026 | LS Publication Dept. | Developed by Charith Neranga
+        </div>
+    </div>
 </footer>
 
 <div class="scroll-buttons">
@@ -1153,6 +1268,41 @@ footer {
 </script>
 
 <script>
+// --- MODAL LOGIC ---
+const modalContent = {
+    about: {
+        title: "ABOUT LS PUBLICATION",
+        body: `<p>LS Publication is a premium sports data analysis firm specializing in international horse racing markets. Established in Sri Lanka, we provide real-time tracking, predictive analysis, and insider insights for the UK and Australian racing seasons.</p><p>Our mission is to bridge the gap between complex racing data and actionable intelligence for our Employees and Customers.</p>`
+    },
+    terms: {
+        title: "TERMS OF SERVICE",
+        body: `<p>1. <b>Access:</b> Access to trackers is granted only to verified LS Publication members.</p><p>2. <b>Usage:</b> Redistribution of data found on this dashboard is strictly prohibited.</p><p>3. <b>Liability:</b> While we strive for 100% accuracy, LS Publication is not responsible for losses based on predictive data. Racing involves risk.</p>`
+    },
+    privacy: {
+        title: "PRIVACY POLICY",
+        body: `<p><b>Data Collection:</b> We log visitor names, IP addresses, and session times solely for security and internal analytics purposes.</p><p><b>Security:</b> Your data is protected via Firebase encrypted databases. We never share your credentials with third parties.</p>`
+    }
+};
+
+function openModal(type) {
+    const modal = document.getElementById('info-modal');
+    document.getElementById('modal-title').innerText = modalContent[type].title;
+    document.getElementById('modal-content').innerHTML = modalContent[type].body;
+    modal.style.display = 'flex';
+}
+
+function closeModal() {
+    document.getElementById('info-modal').style.display = 'none';
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    const modal = document.getElementById('info-modal');
+    if (event.target == modal) {
+        closeModal();
+    }
+}
+
 // --- GLOBAL YOUTUBE PLAYER VARIABLE ---
 var player;
 
@@ -1355,20 +1505,6 @@ function convert() {
 /* --- AUTOMATIC MONTHLY THEME LOGIC --- */
 function applyMonthlyUpdates() {
     const editions = [
-      //  { name: "New Year Edition", greet: "🎉 Happy New Year" },
-    // { name: "Late Winter Edition", greet: "❄️ Stay Warm" },
-      //    { name: "Spring Edition", greet: "🌱 Fresh Season" },
-      //    { name: "Spring Bloom Edition", greet: "🌸 Happy Spring" },
-       //   { name: "May Edition", greet: "🏇 Race Season" },
-       //   { name: "Summer Edition", greet: "☀️ Summer Racing" },
-       //   { name: "Mid-Summer Edition", greet: "🔥 Heat on Track" },
-       //   { name: "Summer End Edition", greet: "🌊 Golden Days" },
-       //   { name: "Autumn Edition", greet: "🍂 Fall Insights" },
-        //  { name: "Halloween Edition", greet: "🎃 Spooky Wins" },
-        //  { name: "Winter Edition", greet: "🌩️ Cold Strikes" },
-        //  { name: "Christmas Edition", greet: "🎄 Merry Christmas" }
-
-
         { name: "Magic Millions", greet: "🎉 Happy New Year | 🏇 Carnival Season" }, // Jan
         { name: "Blue Diamond", greet: "❄️ Stay Warm | 💎 Diamond Day" },          // Feb
         { name: "Cheltenham Festival", greet: "🌱 Fresh Season | 🏆 Festival Glory" }, // Mar
@@ -1409,6 +1545,3 @@ applyMonthlyUpdates();
 </script>
 </body>
 </html>
-
-
-
